@@ -10,12 +10,12 @@ public class AppController {
 	public String index() {
 		return "index";
 	}
-	
+
 	@GetMapping("/about")
 	public String about() {
 		return "about";
 	}
-	
+
 	@GetMapping("/contact-us")
 	public String contactUs() {
 		return "contact";

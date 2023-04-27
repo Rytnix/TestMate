@@ -1,9 +1,6 @@
 package com.collegeproject.Testmate.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,6 +10,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class Answer {
 
     @Id
@@ -21,10 +19,16 @@ public class Answer {
 
     @OneToOne
     @JoinColumn(name= "queston_id", nullable=false)
-    private Question questions;
+    @NonNull private Question questions;
 
     @OneToOne
     @JoinColumn(name= "option_id", nullable=false)
-    private Option option;
+    @NonNull private Option option;
+    public void setAnswer(Option answer) {
+        this.option = answer;
+    }
 
+    public Option getAnswer() {
+        return option;
+    }
 }

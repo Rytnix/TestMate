@@ -2,7 +2,6 @@ package com.collegeproject.Testmate;
 
 import com.collegeproject.Testmate.entity.Organiser;
 import com.collegeproject.Testmate.repository.OrganiserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

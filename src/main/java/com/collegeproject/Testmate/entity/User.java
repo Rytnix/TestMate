@@ -1,9 +1,6 @@
 package com.collegeproject.Testmate.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,15 +10,20 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@RequiredArgsConstructor()
 public class User {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(nullable=false,unique=true,length=50)
-	private String email;
+	@NonNull  private String email;
 	
 	@Column(nullable=false,length=50)
-	private String name;
+	@NonNull  private String name;
+
+
+
+
 
 }
