@@ -86,6 +86,24 @@
 			<version>3.1.1.RELEASE</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>shoelace-style__shoelace</artifactId>
+			<version>2.1.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.github.wimdeblauwe/htmx-spring-boot-thymeleaf -->
+		<dependency>
+			<groupId>io.github.wimdeblauwe</groupId>
+			<artifactId>htmx-spring-boot-thymeleaf</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.dmfs/http-client-headers -->
+		<dependency>
+			<groupId>org.dmfs</groupId>
+			<artifactId>http-client-headers</artifactId>
+			<version>0.10.3</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

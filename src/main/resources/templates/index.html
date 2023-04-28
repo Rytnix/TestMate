@@ -1,14 +1,113 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Add CSS and JS to Thymeleaf</title>
-    <link th:href="@{static/css/main.css}" rel="stylesheet" />
+    <title>Toast UI Design</title>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" th:href="@{toast/style.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+    $(document).ready(function() {
+    $('.open-modal').click(function() {
+        console.log("hello")
+    $('.modal').fadeIn();
+    });
+    $('.close-modal').click(function() {
+    $('.modal').fadeOut();
+    });
+    });
+    </script>
 </head>
+<style>
+    /* Styles for the open button */
+    .open-modal {
+        display: block;
+        width: 150px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        background-color: #fff;
+        border: 1px solid #000;
+        border-radius: 25px;
+        margin: 100px auto;
+        text-decoration: none;
+        color: #000;
+        font-size: 16px;
+        font-weight: bold;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+        transition: all 0.3s ease;
+    }
+
+    .open-modal:hover {
+        box-shadow: 0px 0px 20px rgba(0,0,0,0.8);
+    }
+
+    /* Styles for the modal overlay */
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 9999;
+    }
+
+    /* Styles for the modal content */
+    .modal-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        max-width: 600px;
+        padding: 20px;
+        border-radius: 20px;
+        background-color: rgba(255,255,255,0.8);
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+    }
+
+    /* Styles for the close button */
+    .close-modal {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: none;
+        background-color: #000;
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 20px;
+        cursor: pointer;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+        transition: all 0.3s ease;
+    }
+
+    .close-modal:hover {
+        background-color: #fff;
+        color: #000;
+        box-shadow: 0px 0px 20px rgba(0,0,0,0.8);
+    }
+
+</style>
 <body>
-<h2>Carefully Styled Heading</h2>
-<p>
-    This is text on which we want to apply <strong>very special</strong> styling.
-</p>
+<a href="#" class="open-modal">Click me!</a>
+
+<div class="modal">
+    <div class="modal-content">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec consequat consequat mauris, sit amet commodo magna convallis sit amet. Ut nec magna sem. Praesent vel tincidunt magna. Nulla venenatis leo nunc, in suscipit erat auctor eget. Donec volutpat nibh tellus, ac posuere augue maximus non. </p>
+        <button class="close-modal">Close</button>
+    </div>
+</div>
 </body>
 </html>

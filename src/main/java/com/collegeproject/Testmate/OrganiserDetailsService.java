@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 
 public class OrganiserDetailsService implements UserDetailsService {
 
@@ -20,7 +21,7 @@ public class OrganiserDetailsService implements UserDetailsService {
 		if(org==null) {
 			throw new UsernameNotFoundException("User not found");
 		}
-		
+
 		return new OrganiserDetails(org);
 	}
 }

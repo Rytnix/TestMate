@@ -15,11 +15,11 @@ document.addEventListener('DOMContentLoaded', function (e) {
 
     if (accountUserImage) {
       const resetImage = accountUserImage.src;
-      fileInput.onchange = () => {
-        if (fileInput.files[0]) {
-          accountUserImage.src = window.URL.createObjectURL(fileInput.files[0]);
-        }
-      };
+      // fileInput.onchange = () => {
+      //   if (fileInput.files[0]) {
+      //     accountUserImage.src = window.URL.createObjectURL(fileInput.files[0]);
+      //   }
+      // };
       resetFileInput.onclick = () => {
         fileInput.value = '';
         accountUserImage.src = resetImage;

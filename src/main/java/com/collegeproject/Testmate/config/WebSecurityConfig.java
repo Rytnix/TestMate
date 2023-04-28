@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http.authorizeRequests()
-				.antMatchers("/organiser/register","/organiser/forgotpass").permitAll()
+				.antMatchers("/organiser/register","/organiser/forgotpass","organiser/account-settings/imageUpload").permitAll()
 				.antMatchers("/organiser/**").authenticated()
 				.and()
 				.formLogin()
@@ -65,6 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 				.logout().logoutRequestMatcher(new AntPathRequestMatcher("/organiser/logout")).logoutSuccessUrl("/organiser/login?logout")
 				.permitAll();
+
 	}
 
 }
