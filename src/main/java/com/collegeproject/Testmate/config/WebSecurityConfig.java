@@ -4,6 +4,7 @@ import com.collegeproject.Testmate.OrganiserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
@@ -52,7 +54,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http.authorizeRequests()
-				.antMatchers("/organiser/register","/organiser/forgotpass","organiser/account-settings/imageUpload").permitAll()
+
+				.antMatchers("/organiser/register","/organiser/forgotpass").permitAll()
 				.antMatchers("/organiser/**").authenticated()
 				.and()
 				.formLogin()
@@ -63,8 +66,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					.defaultSuccessUrl("/organiser/dashboard")
 					.permitAll()
 				.and()
-				.logout().logoutRequestMatcher(new AntPathRequestMatcher("/organiser/logout")).logoutSuccessUrl("/organiser/login?logout")
+				.logout()
+				.logoutRequestMatcher(new AntPathRequestMatcher("/organiser/logout")).logoutSuccessUrl("/organiser/login?logout")
 				.permitAll();
+
 
 	}
 

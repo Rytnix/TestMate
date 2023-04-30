@@ -59,6 +59,8 @@ public class Organiser implements Serializable {
 
 	private byte[] image;
 
+	private Boolean isActive;
+
 	@OneToMany(mappedBy="organisers")
 	private List<Exam> exams= new ArrayList<Exam>();
 

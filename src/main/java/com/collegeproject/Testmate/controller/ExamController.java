@@ -61,7 +61,7 @@ public class ExamController {
         if(user instanceof OrganiserDetails){
             Organiser org = ((OrganiserDetails) user).getOrg();
             model.addAttribute("exams",repo.findByOrganiserId(org.getId()));
-            return "organiser/exam/list";
+            return "organiser/exam/list-exam";
         }
         else {
             return OrganiserController.LOGIN_ROUTE;
@@ -71,14 +71,16 @@ public class ExamController {
     @GetMapping("/organiser/exams/create")
     public String showCreateExam(Model model){
         model.addAttribute("exam",new Exam());
-        return "organiser/exam/create";
+        return "organiser/exam/create-exam";
     }
 
     @PostMapping("/organiser/exams/create")
     public String createExam(Exam exam){
+        System.out.println("hello");
         Object user=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(user instanceof OrganiserDetails){
             exam.setOrganisers(((OrganiserDetails) user).getOrg());
+            System.out.println("I am is post exam"+ exam.getInstructions());
             repo.save(exam);
             return "redirect:/organiser/exams";            
         }
