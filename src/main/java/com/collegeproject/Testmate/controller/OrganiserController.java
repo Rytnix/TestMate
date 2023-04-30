@@ -157,6 +157,7 @@ public class OrganiserController {
 	@GetMapping("organiser/dashboard")
 	public String dashboard(Model model) {
 		int examcount=0;
+		int activecount=0;
 		String name="";
 		Object user=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if(user instanceof OrganiserDetails){
@@ -166,6 +167,7 @@ public class OrganiserController {
 			model.addAttribute("id",org.getId());
 		}
 		model.addAttribute("examcount",examcount);
+		model.addAttribute("activecount",activecount);
 		model.addAttribute("name",name);
 		return "organiser/dashboard";
 	}

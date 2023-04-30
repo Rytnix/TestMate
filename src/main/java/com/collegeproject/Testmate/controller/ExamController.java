@@ -7,6 +7,7 @@ import com.collegeproject.Testmate.entity.Exam;
 import com.collegeproject.Testmate.entity.Organiser;
 import com.collegeproject.Testmate.entity.UserExam;
 import com.collegeproject.Testmate.repository.ExamRepository;
+import com.collegeproject.Testmate.repository.OrganiserRepository;
 import com.collegeproject.Testmate.repository.UserAnswerRepository;
 import com.collegeproject.Testmate.repository.UserExamRepository;
 import freemarker.template.Configuration;
@@ -48,6 +49,8 @@ public class ExamController {
     Configuration fmconfiguration;
     @Autowired
     ExamRepository repo;
+    @Autowired
+    OrganiserRepository organiserRepository;
 
     @Autowired
     UserAnswerRepository userAnswerRepository;
@@ -61,6 +64,7 @@ public class ExamController {
         if(user instanceof OrganiserDetails){
             Organiser org = ((OrganiserDetails) user).getOrg();
             model.addAttribute("exams",repo.findByOrganiserId(org.getId()));
+            model.addAttribute("id",organiserRepository.findById(org.getId()));
             return "organiser/exam/list-exam";
         }
         else {

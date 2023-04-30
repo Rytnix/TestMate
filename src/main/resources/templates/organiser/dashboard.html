@@ -275,13 +275,13 @@
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" th:href="@{/organiser/account-settings}">
                         <i class="bx bx-user me-2"></i>
                         <span class="align-middle">My Profile</span>
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" th:href="@{/organiser/account-settings}">
                         <i class="bx bx-cog me-2"></i>
                         <span class="align-middle">Settings</span>
                       </a>
@@ -321,7 +321,7 @@
                             Please Click on <span class="fw-bold">Exam</span> for creating a new Exam
                           </p>
 
-                          <a th:href="@{/organiser/exam/create}" class="btn btn-sm btn-outline-primary">Create Exam</a>
+                          <a th:href="@{/organiser/exams/create}" class="btn btn-sm btn-outline-primary">Create Exam</a>
                         </div>
                       </div>
                       <div class="col-sm-5 text-center text-sm-left">
@@ -361,12 +361,12 @@
                                 <i class="bx bx-dots-vertical-rounded"></i>
                               </button>
                               <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
-                                <a class="dropdown-item" href="javascript:void(0);">View More</a>
+                                <a class="dropdown-item" th:href="@{/organiser/exams}">View More</a>
                               </div>
                             </div>
                           </div>
                           <span class="d-block mb-1">Total Exams</span>
-                          <h3 class="card-title text-nowrap mb-2">0</h3>
+                          <h3 class="card-title text-nowrap mb-2" th:text="${examcount}"></h3>
 <!--                          <small class="text-danger fw-semibold"><i class="bx bx-down-arrow-alt"></i> -14.82%</small>-->
                         </div>
                       </div>

@@ -12,4 +12,6 @@ public interface ExamRepository extends JpaRepository<Exam, Long> {
 
     @Query("SELECT e FROM Exam e WHERE e.organisers.id = ?1")
     List<Exam> findByOrganiserId(Long organiser_id);
+//    @Query("SELECT e FROM Exam e WHERE e.organisers.id = ?2 and e.ex")
+//    List<Exam> findActiveExam(Long organiser_id);
 }
