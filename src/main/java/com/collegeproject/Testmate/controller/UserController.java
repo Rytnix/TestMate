@@ -51,7 +51,6 @@ public class UserController {
         try {
             List<User> users = CSVHelper.csvToUsers(file.getInputStream());
             for (User u: users) {
-                System.out.println("User --- "+u);
                 Exam exam=examRepository.findById(exam_id).get();
                 User user=userRepo.findByEmail(u.getEmail());
                 if(user==null){

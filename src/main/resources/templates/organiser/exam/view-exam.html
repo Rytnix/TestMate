@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+
+<html
+        lang="en"
+        class="light-style layout-menu-fixed"
+        dir="ltr"
+        data-theme="theme-default"
+        data-assets-path="../assets/"
+        data-template="vertical-menu-template-free"
+        xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="utf-8"/>
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+    <
+
+    <title>Exam </title>
+
+    <meta name="description" content=""/>
+
+    <!--     Font Awesome Icons-->
+    <link rel="stylesheet" href="/webjars/AdminLTE/3.0.0/plugins/fontawesome-free/css/all.min.css">
+    <!--     IonIcons-->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!--     Tempusdominus Bbootstrap 4-->
+    <link rel="stylesheet"
+          href="/webjars/AdminLTE/3.0.0/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!--     Theme style-->
+    <!--     Google Font: Source Sans Pro-->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- Favicon -->
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+            rel="stylesheet"
+    />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="../../assets/vendor/fonts/boxicons.css"/>
+
+    <link rel="icon" type="image/x-icon" th:href="@{../assets/img/favicon/favicon.ico}"/>
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="../../assets/vendor/css/core.css" class="template-customizer-core-css"/>
+    <link rel="stylesheet" href="../../assets/vendor/css/theme-default.css" class="template-customizer-theme-css"/>
+    <link rel="stylesheet" href="../../assets/css/demo.css"/>
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css"/>
+
+    <!-- Page CSS -->
+    <script>
+        function uploadFile() {
+            console.log("hello")
+            const input = document.getElementById("file-input");
+            const file = input.files[0];
+            const apiUrl = "/organiser/uploadimage"; // Replace with your API endpoint URL
+            const formData = new FormData();
+            formData.append("file", file);
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", apiUrl, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log("File uploaded successfully.");
+                    } else {
+                        console.error("Error uploading file.");
+                    }
+                }
+            };
+            xhr.send(formData);
+        }
+    </script>
+    <style>
+        .closee {
+            position: absolute;
+            right: 42px;
+            top: 22px;
+            width: 12px;
+            height: 12px;
+            opacity: 0.3;
+        }
+
+        .closee:hover {
+            opacity: 1;
+        }
+
+        .closee:before, .closee:after {
+            position: absolute;
+            left: 15px;
+            content: ' ';
+            height: 13px;
+            width: 2px;
+            background-color: #333;
+        }
+
+        .closee:before {
+            transform: rotate(45deg);
+        }
+
+        .closee:after {
+            transform: rotate(-45deg);
+        }
+
+    </style>
+    <!-- Helpers -->
+    <script src="../../assets/vendor/js/helpers.js"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="../../assets/js/config.js"></script>
+</head>
+<body>
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+        <!-- Menu -->
+
+        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+            <div class="app-brand demo">
+                <a href="index.html" class="app-brand-link">
+              <span class="app-brand-logo demo">
+                  <img th:src="@{../../assets/img/favicon/favicon.ico}" alt="logo">
+              </span>
+                    <span class="app-brand-text demo menu-text fw-bolder ms-2">Testmate</span>
+                </a>
+
+                <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+                    <i class="bx bx-chevron-left bx-sm align-middle"></i>
+                </a>
+            </div>
+
+            <div class="menu-inner-shadow"></div>
+
+            <ul class="menu-inner py-1">
+                <!-- Dashboard -->
+                <li class="menu-item">
+                    <a th:href="@{/organiser/dashboard}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                        <div data-i18n="Analytics">Dashboard</div>
+                    </a>
+                </li>
+
+                <!-- Exam -->
+                <li class="menu-item open active">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons bx bx-layout"></i>
+                        <div data-i18n="Layouts">Exam</div>
+                    </a>
+
+                    <ul class="menu-sub">
+                        <li class="menu-item ">
+                            <a th:href="@{/organiser/exams/create}" class="menu-link">
+                                <div data-i18n="Without menu">Create Exam</div>
+                            </a>
+                        </li>
+                        <li class="menu-item ">
+                            <a th:href="@{/organiser/exams}" class="menu-link">
+                                <div data-i18n="Without navbar">List Exam</div>
+                            </a>
+                        </li>
+                        <li class="menu-item active">
+                            <a href="#" class="menu-link">
+                                <div data-i18n="Container">View Exam</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li class="menu-header small text-uppercase">
+                    <span class="menu-header-text">Pages</span>
+                </li>
+
+                <li class="menu-item ">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                        <div data-i18n="Account Settings">Account Settings</div>
+                    </a>
+                    <ul class="menu-sub">
+                        <li class="menu-item ">
+                            <a th:href="@{/organiser/account-settings}" class="menu-link">
+                                <div data-i18n="Account">Account</div>
+                            </a>
+                        </li>
+                        <li class="menu-item ">
+                            <a th:href="@{/organiser/notifications}" class="menu-link">
+                                <div data-i18n="Notifications">Notifications</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a th:href="@{/organiser/chatwindow}" class="menu-link">
+                                <div data-i18n="Connections">Chat</div>
+
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
+                        <div data-i18n="Authentications">Authentications</div>
+                    </a>
+                    <ul class="menu-sub">
+                        <li class="menu-item">
+                            <a th:href="@{/organiser/register}" class="menu-link" target="_blank">
+                                <div data-i18n="Basic">Register</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a th:href="@{/organiser/forgotpass}" class="menu-link" target="_blank">
+                                <div data-i18n="Basic">Forgot Password</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+                        <div data-i18n="Misc">Misc</div>
+                    </a>
+                    <ul class="menu-sub">
+                        <li class="menu-item">
+                            <a href="pages-misc-error.html" class="menu-link">
+                                <div data-i18n="Error">Error</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a th:href="@{/organiser/um}" class="menu-link">
+                                <div data-i18n="Under Maintenance">Under Maintenance</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Misc -->
+                <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>
+                <li class="menu-item">
+                    <a
+                            href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
+                            target="_blank"
+                            class="menu-link"
+                    >
+                        <i class="menu-icon tf-icons bx bx-support"></i>
+                        <div data-i18n="Support">Support</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a
+                            href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
+                            target="_blank"
+                            class="menu-link"
+                    >
+                        <i class="menu-icon tf-icons bx bx-file"></i>
+                        <div data-i18n="Documentation">Documentation</div>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        <!-- / Menu -->
+
+        <!-- Layout container -->
+        <div class="layout-page">
+            <!-- Navbar -->
+
+            <nav
+                    class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                    id="layout-navbar"
+            >
+                <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                    <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                        <i class="bx bx-menu bx-sm"></i>
+                    </a>
+                </div>
+
+                <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                    <!-- Search -->
+                    <div class="navbar-nav align-items-center">
+                        <div class="nav-item d-flex align-items-center">
+                            <i class="bx bx-search fs-4 lh-0"></i>
+                            <input
+                                    type="text"
+                                    class="form-control border-0 shadow-none"
+                                    placeholder="Search..."
+                                    aria-label="Search..."
+                            />
+                        </div>
+                    </div>
+                    <!-- /Search -->
+
+                    <ul class="navbar-nav flex-row align-items-center ms-auto">
+                        <!-- Place this tag where you want the button to render. -->
+
+
+                        <!-- User -->
+                        <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                            <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
+                               data-bs-toggle="dropdown">
+                                <div class="avatar avatar-online">
+                                    <img th:src="@{/image/{id}(id=${id})}" alt class="rounded-circle"/>
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0 me-3">
+                                                <div class="avatar avatar-online">
+                                                    <img th:src="@{/image/{id}(id=${id})}" alt
+                                                         class=" rounded-circle"/>
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <span class="fw-semibold d-block" th:text="${name}"></span>
+                                                <small class="text-muted">Admin</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <div class="dropdown-divider"></div>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" th:href="@{/organiser/account-settings}">
+                                        <i class="bx bx-user me-2"></i>
+                                        <span class="align-middle">My Profile</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" th:href="@{/organiser/account-settings}">
+                                        <i class="bx bx-cog me-2"></i>
+                                        <span class="align-middle">Settings</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <div class="dropdown-divider"></div>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" th:href="@{/organiser/logout}">
+                                        <i class="bx bx-power-off me-2"></i>
+                                        <span class="align-middle">Log Out</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!--/ User -->
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- / Navbar -->
+
+            <!-- Content wrapper -->
+            <div class="content-wrapper">
+                <!-- Content -->
+
+                <div class="container-xxl flex-grow-1 container-p-y">
+                    <h4 class="fw-bold py-3 mb-4">
+                        <span class="text-muted fw-light">Exam /</span> View-Exam
+                    </h4>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="nav nav-pills flex-column flex-md-row mb-3">
+                                <li class="nav-item">
+                                    <a class="nav-link" th:href="@{/organiser/exams/create}"
+                                    ><i class="bx bx-user me-1"></i>Create Exam</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link " th:href="@{/organiser/exams}"
+                                    ><i class="bx bx-bell me-1"></i> List Exam</a
+                                    >
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link active" th:href="@{/organiser/exam/view}"
+                                    ><i class="bx bx-link-alt me-1"></i> View Exam</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <!-- Responsive Table -->
+                            <div class="card">
+                                <h5 class="card-header" th:text="${exam.getTitle()}"></h5>
+                                <div class="table-responsive text-nowrap">
+                                    <table class="table text-center table-bordered">
+                                        <thead class="table-light">
+                                        <tr class="text-nowrap">
+                                            <th>Query</th>
+                                            <th>Result</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td><span class="badge bg-label-primary me-1">Exam Code:</span></td>
+                                            <td th:text="${exam.getExamCode()}"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Exam Title :</td>
+                                            <td th:text="${exam.getTitle()}"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Exam Description :</td>
+                                            <td th:text="${exam.getDescription()}"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Date Of Exam :</td>
+                                            <td th:text="${exam.getStartDate()}"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Exam Time :</td>
+                                            <td th:text="${exam.getExamTime()}"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Marks (Per Question) :</td>
+                                            <td th:text="${exam.getMarksOfEachQuestion()}"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Negative Marks (Per Question) :</td>
+                                            <td th:text="${exam.getNegativeMarkOfEachQuestion()}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                            <!--                           Manage Questions -->
+
+
+                            <div class="flex-grow-1 container-p-y">
+                                <div class="col-sm-12">
+                                    <div class="card card-primary">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Add Questions</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <button type="button" class="btn btn-primary mb-2" data-toggle="modal"
+                                                    data-target="#modal-question">
+                                                Add Question
+                                            </button>
+                                            <ol>
+                                                <li th:each="question :${exam.getQuestions()}">
+                                                    <div>
+                                                            <span th:text="${question.getStatement()}"
+                                                                  th:id="'question_'+${question.getId()}"></span>
+                                                        <a class="text-danger ml-3"
+                                                           th:href="@{/organiser/question/delete(exam_id=${exam.getId()},question_id=${question.getId()})}"><i
+                                                                class="fa fa-trash"></i></a>
+                                                        <a class="text-success ml-3"><i class="fa fa-pen"
+                                                                                        data-toggle="modal"
+                                                                                        data-target="#modal-edit-question"
+                                                                                        th:onclick="'editQuestion('+${question.getId()}+')'"></i></a>
+                                                    </div>
+                                                    <ul>
+                                                        <li th:each="option : ${question.getOptions()}">
+                                                                <span th:text="${option.getOption()}"
+                                                                      th:class="'options_'+${question.getId()}"></span>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="text-danger">Answer : <span
+                                                            th:id="'answer_'+${question.getId()}"
+                                                            th:text="${question.getAnswer().getAnswer().getOption()}"></span>
+                                                    </div>
+                                                </li>
+                                            </ol>
+                                        </div>
+                                        <div class="card-footer">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="card card-primary">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Add Students</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <form th:action="@{/organiser/user/add}" method="post"
+                                              class="form-inline">
+                                            <div class="form-group p-2">
+                                                <label for="name" class="pr-2">Name:</label>
+                                                <input type="text" id="name" class="form-control" name="name">
+                                            </div>
+                                            <input type="hidden" name="exam_id" th:value="${exam.getId()}">
+                                            <div class="form-group p-2">
+                                                <label for="email" class="pr-2">Email:</label>
+                                                <input type="text" id="email" class="form-control" name="email">
+                                            </div>
+                                            <div class="form-group p-2">
+                                                <input type="submit" class="btn btn-primary" name="submit"
+                                                       value="Add User">
+
+                                            </div>
+                                        </form>
+                                        <form method="POST" th:action="@{/user/csv/upload}"
+                                              enctype="multipart/form-data" class="form-inline">
+                                            <input type="hidden" name="exam_id" th:value="${exam.getId()}">
+                                            <div class="form-group p-2">
+                                                <label for="file" class="pr-2">Select a CSV file</label>
+                                                <input type="file" name="file" class="form-control p-1"
+                                                       id="file" accept=".csv">
+                                            </div>
+                                            <div class="form-group p-2">
+                                                <button type="submit" class="btn rounded-pill btn-dark">Import Users
+                                                </button>
+                                                <a th:href="@{/organiser/exam/mail(id=${exam.getId()})}"
+                                                   class="btn rounded-pill btn-danger">Mail Users</a>
+                                            </div>
+                                        </form>
+                                        <div class="alert alert-success alert-dismissible" role="alert" th:inline="text"
+                                             th:if="${success_message}">
+                                            [[${success_message}]]
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                        <div class="alert alert-danger alert-dismissible" role="alert" th:inline="text"
+                                             th:if="${error_message}">
+                                            [[${error_message}]]
+                                            <button type="button" class="btn-close" data-dismiss="alert"></button>
+                                        </div>
+                                        <table id="examList" class="table table-bordered table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Password</th>
+                                                <th>Actions</th>
+                                                <th>Send Mail</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="userExam: ${exam.getUserExam()}">
+                                                <td th:text="${userExam.getUser().getName()}"></td>
+                                                <td th:text="${userExam.getUser().getEmail()}"></td>
+                                                <td th:text="${userExam.getPassword()}"></td>
+                                                <td>
+                                                    <a th:href="@{/organsier/user/delete(id=${userExam.getId()})}"><i
+                                                            class="fa fa-trash"></i></a></td>
+                                                <td>
+                                                    <a th:href="@{/organiser/exam/mail(id=${exam.getId()})}"
+                                                       style="align-items: center"  class="tf-icons bx bx-rocket"> </a>
+                                                </td>
+                                            </tr>
+
+                                            </tbody>
+                                            <tfoot>
+
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="card-footer">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="modal-question">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form th:action="@{/organiser/question/add}" method="post">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Add Question</h4>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="hidden" class="form-control" name="exam_id"
+                                                   th:value="${exam.getId()}">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="question"
+                                                       placeholder="Enter your question" required>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-sm-1">
+                                                    <input type="radio" name="answer" value="1"
+                                                           checked="checked">
+                                                </div>
+                                                <div class="col-sm-11">
+                                                    <input type="text" class="form-control" name="option[]"
+                                                           placeholder="Option 1" required>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-sm-1">
+                                                    <input type="radio" name="answer" value="2">
+                                                </div>
+                                                <div class="col-sm-11">
+                                                    <input type="text" class="form-control" name="option[]"
+                                                           placeholder="Option 2" required>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-sm-1">
+                                                    <input type="radio" name="answer" value="3">
+                                                </div>
+                                                <div class="col-sm-11">
+                                                    <input type="text" class="form-control" name="option[]"
+                                                           placeholder="Option 3" required>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-sm-1">
+                                                    <input type="radio" name="answer" value="4">
+                                                </div>
+                                                <div class="col-sm-11">
+                                                    <input type="text" class="form-control" name="option[]"
+                                                           placeholder="Option 4" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-between">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                Close
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <div class="modal fade" id="modal-edit-question">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form th:action="@{/organiser/question/edit}" method="post">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Edit Question</h4>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="hidden" class="form-control" name="question_id"
+                                                   id="edit_question_id">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="question"
+                                                       id="edit_question" placeholder="Enter your question"
+                                                       required>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-sm-1">
+                                                    <input type="radio" name="answer" value="1"
+                                                           checked="checked">
+                                                </div>
+                                                <div class="col-sm-11">
+                                                    <input type="text" class="form-control" id="edit_option_1"
+                                                           name="option[]" placeholder="Option 1" required>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-sm-1">
+                                                    <input type="radio" name="answer" value="2">
+                                                </div>
+                                                <div class="col-sm-11">
+                                                    <input type="text" class="form-control" id="edit_option_2"
+                                                           name="option[]" placeholder="Option 2" required>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-sm-1">
+                                                    <input type="radio" name="answer" value="3">
+                                                </div>
+                                                <div class="col-sm-11">
+                                                    <input type="text" class="form-control" id="edit_option_3"
+                                                           name="option[]" placeholder="Option 3" required>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-sm-1">
+                                                    <input type="radio" name="answer" value="4">
+                                                </div>
+                                                <div class="col-sm-11">
+                                                    <input type="text" class="form-control" id="edit_option_4"
+                                                           name="option[]" placeholder="Option 4" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-between">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                Close
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+
+
+                    </div>
+
+                    <!-- Footer -->
+                    <footer class="content-footer footer bg-footer-theme">
+                        <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+                            <div class="mb-2 mb-md-0">
+                                ©
+                                <script>
+                                    document.write(new Date().getFullYear());
+                                    const input = document.getElementById("utk")
+                                    input.addEventListener("change", () => {
+                                        document.getElementById("my-form").submit();
+                                    });
+                                </script>
+                                , made with ❤️ by
+                                <a href="github.com/Rytnix" target="_blank" class="footer-link fw-bolder">TestMate
+                                    Team</a>
+                            </div>
+
+                        </div>
+                    </footer>
+                    <!-- / Footer -->
+
+                    <div class="content-backdrop fade"></div>
+                </div>
+                <!-- Content wrapper -->
+            </div>
+        </div>
+        <!-- / Layout page -->
+    </div>
+
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+</div>
+</div>
+<!-- / Layout wrapper -->
+
+
+<!-- Core JS -->
+<!-- build:js assets/vendor/js/core.js -->
+<script src="../../assets/vendor/libs/jquery/jquery.js"></script>
+<script src="../../assets/vendor/libs/popper/popper.js"></script>
+<script src="../../assets/vendor/js/bootstrap.js"></script>
+<script src="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+<script src="../../assets/vendor/js/menu.js"></script>
+<!-- endbuild -->
+
+
+<!-- jQuery -->
+<script src="/webjars/AdminLTE/3.0.0/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="/webjars/AdminLTE/3.0.0/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- InputMask -->
+<script src="/webjars/AdminLTE/3.0.0/plugins/moment/moment.min.js"></script>
+<script src="/webjars/AdminLTE/3.0.0/plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="/webjars/AdminLTE/3.0.0/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/webjars/AdminLTE/3.0.0/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/webjars/AdminLTE/3.0.0/dist/js/demo.js"></script>
+<!-- Vendors JS -->
+<script>
+    function editQuestion(id){
+        $("#edit_question_id").val(id);
+        $("#edit_question").val($('#question_'+id).html());
+        $("#edit_option_1").val($('.options_'+id).eq(0).html());
+        $("#edit_option_2").val($('.options_'+id).eq(1).html());
+        $("#edit_option_3").val($('.options_'+id).eq(2).html());
+        $("#edit_option_4").val($('.options_'+id).eq(3).html());
+    }
+</script>
+<!-- Main JS -->
+<script src="../../assets/js/main.js"></script>
+
+<!-- Page JS -->
+<script src="../../assets/js/pages-account-settings-account.js"></script>
+
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<script>
+    $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+        icons: {
+            time: 'far fa-clock',
+            date: 'far fa-calendar',
+            up: 'fas fa-arrow-up',
+            down: 'fas fa-arrow-down',
+            previous: 'fas fa-chevron-left',
+            next: 'fas fa-chevron-right',
+            today: 'far fa-calendar-check-o',
+            clear: 'far fa-trash',
+            close: 'far fa-times'
+        }
+    });
+
+    $('#datetimepicker1').datetimepicker({
+        format: 'DD/MM/YYYY h:mm A'
+    });
+</script>
+</body>
+</html>

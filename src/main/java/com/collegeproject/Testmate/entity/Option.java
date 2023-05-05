@@ -1,6 +1,5 @@
 package com.collegeproject.Testmate.entity;
 
-import jdk.jfr.Registered;
 import lombok.*;
 
 import javax.persistence.*;

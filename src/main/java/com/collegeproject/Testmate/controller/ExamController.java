@@ -32,7 +32,9 @@ import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,7 +66,8 @@ public class ExamController {
         if(user instanceof OrganiserDetails){
             Organiser org = ((OrganiserDetails) user).getOrg();
             model.addAttribute("exams",repo.findByOrganiserId(org.getId()));
-            model.addAttribute("id",organiserRepository.findById(org.getId()));
+            model.addAttribute("id",org.getId());
+            model.addAttribute("name",org.getName());
             return "organiser/exam/list-exam";
         }
         else {
@@ -74,13 +77,20 @@ public class ExamController {
 
     @GetMapping("/organiser/exams/create")
     public String showCreateExam(Model model){
-        model.addAttribute("exam",new Exam());
-        return "organiser/exam/create-exam";
+        Object user=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(user instanceof OrganiserDetails) {
+            Organiser org = ((OrganiserDetails) user).getOrg();
+            model.addAttribute("exam", new Exam());
+            model.addAttribute("id", org.getId());
+            model.addAttribute("name", org.getName());
+            return "organiser/exam/create-exam";
+        }
+
+        return OrganiserController.LOGIN_ROUTE;
     }
 
     @PostMapping("/organiser/exams/create")
     public String createExam(Exam exam){
-        System.out.println("hello");
         Object user=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(user instanceof OrganiserDetails){
             exam.setOrganisers(((OrganiserDetails) user).getOrg());
@@ -97,11 +107,16 @@ public class ExamController {
     public String editExam(@RequestParam(name = "id")Long exam_id, Model model){
         Exam oldExam=repo.findById(exam_id).get();
         model.addAttribute("oldExam",oldExam);
+        Object user=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Organiser org = ((OrganiserDetails) user).getOrg();
+        model.addAttribute("id",org.getId());
+        model.addAttribute("name",org.getName());
         return "organiser/exam/edit";
     }
 
     @PostMapping("/organiser/exams/edit")
     public String editSaveExam(Exam exam){
+        System.out.println("hellooooooo");
         Exam exam1=repo.findById(exam.getId()).get();
         exam.setOrganisers(exam1.getOrganisers());
         repo.save(exam);
@@ -112,7 +127,11 @@ public class ExamController {
     public String viewExam(@RequestParam(name = "id",required = true ) Long id,Model model){
         Exam exam=repo.findById(id).get();
         model.addAttribute("exam",exam);
-        return "organiser/exam/view";
+        Object user=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Organiser org = ((OrganiserDetails) user).getOrg();
+        model.addAttribute("id",org.getId());
+        model.addAttribute("name",org.getName());
+        return "organiser/exam/view-exam";
     }
 
     @GetMapping("/organiser/exams/result")
@@ -153,7 +172,6 @@ public class ExamController {
 
         Exam exam=repo.findById(id).get();
         List<UserExam> examUsers=exam.getUserExam();
-
         for (UserExam userExam:examUsers) {
 
             SimpleDateFormat formatter = new SimpleDateFormat("E, dd MMM yyyy, hh:mm:ss a");
@@ -184,10 +202,10 @@ public class ExamController {
             helper.addInline("logo4.png",new ClassPathResource("templates/images/image-4.png"));
             helper.addInline("logo5.png",new ClassPathResource("templates/images/image-5.png"));
            try {
-                javaMailSender.send(msg);
+               javaMailSender.send(msg);
 
             } catch (MailException e) {
-
+               e.printStackTrace();
             }
             System.out.println("Mail Sent to : "+user_email);
         }
@@ -196,7 +214,6 @@ public class ExamController {
     }
     public String geContentFromTemplate(Map< String, Object > model)     {
         StringBuffer content = new StringBuffer();
-        System.out.println(model.get("firstName"));
        String html="";
         try {
             Template t = fmconfiguration.getTemplate("email-template.ftl");
