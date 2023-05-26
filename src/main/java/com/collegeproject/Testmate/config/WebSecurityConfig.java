@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,18 +24,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private DataSource datasource;
-
 	@Bean
 	public UserDetailsService userDetailsService() {
 
 		return new OrganiserDetailsService();
 	}
-
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authProvider=new DaoAuthenticationProvider();
@@ -42,20 +40,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		authProvider.setPasswordEncoder(passwordEncoder());
 		return authProvider;
 	}
-
-
-
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(authenticationProvider());
 	}
-
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http.authorizeRequests()
 
-				.antMatchers("/organiser/register","/organiser/forgotpass").permitAll()
+				.antMatchers("/organiser/register","/organiser/forgotpass","/v2/api-docs",
+						"/configuration/ui",
+						"/swagger-resources/**",
+						"/configuration/security",
+						"/swagger-ui.html",
+						"/webjars/**").permitAll()
 				.antMatchers("/organiser/**").authenticated()
 				.and()
 				.formLogin()
@@ -70,7 +69,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutRequestMatcher(new AntPathRequestMatcher("/organiser/logout")).logoutSuccessUrl("/organiser/login?logout")
 				.permitAll();
 
-
 	}
+
+
 
 }

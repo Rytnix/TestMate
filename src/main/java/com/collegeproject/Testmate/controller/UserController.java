@@ -47,6 +47,72 @@ public class UserController {
     @Autowired
     OptionRepository optionRepository;
 
+    @PostMapping("{examCode}/login")
+    public String loginUser(@PathVariable(name = "examCode")String examCode,
+                            @RequestParam(name = "email")String email,
+                            @RequestParam(name = "password")String password,
+                            Model model,
+                            HttpSession session){
+        String redirectUrl="redirect:/"+examCode+"/login";
+        try{
+            if(checkValidExamCode(examCode)){
+                User user=userRepo.findByEmail(email);
+                if(user==null){
+                    redirectUrl+="?error=1";
+                    throw new Exception();
+                }
+                Long exam_id= Long.valueOf(examCode.split("-")[1]);
+                Exam exam=examRepository.findById(exam_id).get();
+                Long currentTime=new Date().getTime();
+                Long examTime = exam.getStartDate().getTime();
+                if(exam.isOver()){
+                    //Exam is over Sorry you are late
+                    redirectUrl+="?error=6";
+                    throw new Exception();
+                }
+                if(examTime-currentTime>900000){
+                    // You can login only before 15 mins of exam start time
+                    redirectUrl+="?error=4";
+                    throw new Exception();
+                }
+                if(currentTime-examTime>1800000){
+                    // You can login only after 30 mins of exam start time
+                    redirectUrl+="?error=5";
+                    throw new Exception();
+                }
+
+                UserExam userExam=userExamRepository.findUserExamByUser(exam_id,user.getId());
+                if(userExam==null){
+                    // Invalid Email or password
+                    redirectUrl+="?error=1";
+                    throw new Exception();
+                }else if(userExam.getPassword().equals(password)){
+
+                    if(userExam.getStatus()==2){
+                        //Exam Already Submitted
+                        redirectUrl+="?error=3";
+                        throw new Exception();
+                    }
+                    //check If exam Started or not
+
+                    session.setAttribute("user_exam_id",userExam.getId());
+                    session.setAttribute("exam_id",exam_id);
+                    userExam.setStatus(1);// Mark Present for that user
+                    userExamRepository.save(userExam);
+                    return "redirect:/"+examCode+"/instruction";
+
+                }else{
+                    redirectUrl+="?error=1";
+                    throw new Exception();
+                }
+            }else{
+                throw new Exception();
+            }
+        }catch(Exception e){
+            return redirectUrl;
+        }
+    }
+
     public void saveCSVFile(MultipartFile file, Long exam_id) {
         try {
             List<User> users = CSVHelper.csvToUsers(file.getInputStream());
@@ -126,67 +192,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("{examCode}/login")
-    public String loginUser(@PathVariable(name = "examCode")String examCode,@RequestParam(name = "email")String email,@RequestParam(name = "password")String password,Model model,HttpSession session){
-        String redirectUrl="redirect:/"+examCode+"/login";
-        try{
-            if(checkValidExamCode(examCode)){
-                User user=userRepo.findByEmail(email);
-                if(user==null){
-                    redirectUrl+="?error=1";
-                    throw new Exception();
-                }
-                Long exam_id= Long.valueOf(examCode.split("-")[1]);
-                Exam exam=examRepository.findById(exam_id).get();
-                Long currentTime=new Date().getTime();
-                Long examTime = exam.getStartDate().getTime();
-                if(exam.isOver()){
-                    //Exam is over Sorry you are late
-                    redirectUrl+="?error=6";
-                    throw new Exception();
-                }
-                if(examTime-currentTime>900000){
-                    // You can login only before 15 mins of exam start time
-                    redirectUrl+="?error=4";
-                    throw new Exception();
-                }
-                if(currentTime-examTime>1800000){
-                    // You can login only after 30 mins of exam start time
-                    redirectUrl+="?error=5";
-                    throw new Exception();
-                }
 
-                UserExam userExam=userExamRepository.findUserExamByUser(exam_id,user.getId());
-                if(userExam==null){
-                    // Invalid Email or password
-                    redirectUrl+="?error=1";
-                    throw new Exception();
-                }else if(userExam.getPassword().equals(password)){
-
-                    if(userExam.getStatus()==2){
-                        //Exam Already Submitted
-                        redirectUrl+="?error=3";
-                        throw new Exception();
-                    }
-                    //check If exam Started or not
-
-                    session.setAttribute("user_exam_id",userExam.getId());
-                    session.setAttribute("exam_id",exam_id);
-                    userExam.setStatus(1);// Mark Present for that user
-                    userExamRepository.save(userExam);
-                    return "redirect:/"+examCode+"/instruction";
-
-                }else{
-                    redirectUrl+="?error=1";
-                    throw new Exception();
-                }
-            }else{
-                throw new Exception();
-            }
-        }catch(Exception e){
-            return redirectUrl;
-        }
-    }
 
     @GetMapping("{examCode}/login")
     public String showLogin(HttpSession session, @PathVariable(name = "examCode")String examCode, Model model){

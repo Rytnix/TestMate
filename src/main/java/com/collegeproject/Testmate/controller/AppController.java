@@ -8,7 +8,7 @@ public class AppController {
 
 	@GetMapping("")
 	public String index() {
-		return "index";
+		return "testmate-homepage/index";
 	}
 
 	@GetMapping("/about")
