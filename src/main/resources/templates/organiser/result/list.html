@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Exam | Organiser </title>
+
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+
+    <!-- Nucleo Icons -->
+    <link href="./assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="./assets/css/nucleo-svg.css" rel="stylesheet" />
+
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+    <!-- CSS Files -->
+
+
+
+    <link id="pagestyle" href="./assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
+
+
+
+
+
+    <!-- Nepcha Analytics (nepcha.com) -->
+    <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
+    <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="/webjars/AdminLTE/3.0.0/plugins/fontawesome-free/css/all.min.css">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/webjars/AdminLTE/3.0.0/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="/webjars/AdminLTE/3.0.0/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/webjars/AdminLTE/3.0.0/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+<!--    <div th:replace="organiser/fragments/navbar :: header"></div>-->
+<!--    <div th:replace="organiser/fragments/sidenav :: mySidebar"></div>-->
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Exam Result</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">Show Result</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-3">
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3 th:text="${examUsers.size()}"></h3>
+                                <p>Total Users</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                            <a th:href="@{/organiser/exams/view(id = ${exam.getId()})}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3 th:text="${presentCount}"></h3>
+                                <p>Total Present Users</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                            <a th:href="@{/organiser/exams/view(id = ${exam.getId()})}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3 th:text="${adbsetCount}"></h3>
+                                <p>Total Absent Users</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                            <a th:href="@{/organiser/exams/view(id = ${exam.getId()})}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3 th:text="${exam.getQuestions().size()}"></h3>
+                                <p>Total Questions</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                            <a th:href="@{/organiser/exams/view(id = ${exam.getId()})}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Users Score</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div style="font-size: 20px;">
+                                    <span class="badge badge-primary">Attempted</span>
+                                    <span class="badge badge-success">Correct</span>
+                                    <span class="badge badge-danger">Incorrect</span>
+                                </div>
+                                <table id="examList" class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Present/Absent</th>
+                                        <th>Result</th>
+                                        <th>Score</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="examUser: ${examUsers}">
+                                        <td th:text="${examUser.getUser().getName()}"></td>
+                                        <td th:text="${examUser.getUser().getEmail()}"></td>
+                                        <td th:switch="${examUser.getStatus()}">
+                                            <span th:case="'0'" class="badge badge-danger">Absent</span>
+                                            <span th:case="*" class="badge badge-success">Present</span>
+                                        </td>
+                                        <td>
+                                            <span th:text="${correctAnswers[examUser.getId()]+incorrectAnswers[examUser.getId()]}" class="badge badge-primary"></span>
+                                            <span th:text="${correctAnswers[examUser.getId()]}" class="badge badge-success"></span>
+                                            <span th:text="${incorrectAnswers[examUser.getId()]}" class="badge badge-danger"></span>
+                                        </td>
+                                        <td th:text="${score[examUser.getId()]}"></td>
+                                    </tr>
+
+                                    </tbody>
+                                    <tfoot>
+
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <div class="card-footer">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="modal-question">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form th:action="@{/organiser/question/add}" method="post">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Add Question</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" class="form-control" name="exam_id" th:value="${exam.getId()}">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="question" placeholder="Enter your question">
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-sm-1">
+                                            <input type="radio" name="answer" value="1" checked="checked">
+                                        </div>
+                                        <div class="col-sm-11">
+                                            <input type="text" class="form-control" name="option[]" placeholder="Option 1">
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-sm-1">
+                                            <input type="radio" name="answer" value="2">
+                                        </div>
+                                        <div class="col-sm-11">
+                                            <input type="text" class="form-control" name="option[]" placeholder="Option 2">
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-sm-1">
+                                            <input type="radio" name="answer" value="3">
+                                        </div>
+                                        <div class="col-sm-11">
+                                            <input type="text" class="form-control" name="option[]" placeholder="Option 3">
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-sm-1">
+                                            <input type="radio" name="answer" value="4">
+                                        </div>
+                                        <div class="col-sm-11">
+                                            <input type="text" class="form-control" name="option[]" placeholder="Option 4">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+            </div>
+        </section>
+    </div>
+
+    <!--                            <div th:case="3" class="row">-->
+    <!--                                <div class="form-group">-->
+    <!--                                    <label for="usersList">UserList</label>-->
+    <!--                                    <div class="input-group">-->
+    <!--                                        <div class="custom-file">-->
+    <!--                                            <input type="file" class="custom-file-input" id="usersList">-->
+    <!--                                            <label class="custom-file-label" for="usersList">Choose file</label>-->
+    <!--                                        </div>-->
+    <!--                                    </div>-->
+    <!--                                </div>-->
+    <!--                            </div>-->
+
+
+<!--    <div th:replace="organiser/fragments/navbar :: footer"></div>-->
+
+
+</div>
+<!-- ./wrapper -->
+
+<!-- DataTables -->
+<script src="/webjars/AdminLTE/3.0.0/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/webjars/AdminLTE/3.0.0/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/webjars/AdminLTE/3.0.0/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/webjars/AdminLTE/3.0.0/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+
+<!-- jQuery -->
+<script src="/webjars/AdminLTE/3.0.0/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="/webjars/AdminLTE/3.0.0/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE -->
+<script src="/webjars/AdminLTE/3.0.0/dist/js/adminlte.js"></script>
+
+
+<!--   Core JS Files   -->
+<script src="/resultassets/js/core/popper.min.js" ></script>
+<script src="/resultassets/js/core/bootstrap.min.js" ></script>
+<script src="/resultassets/js/plugins/perfect-scrollbar.min.js" ></script>
+<script src="/resultassets/js/plugins/smooth-scrollbar.min.js" ></script>
+
+
+</body>
+</html>

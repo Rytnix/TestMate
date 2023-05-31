@@ -54,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						"/swagger-resources/**",
 						"/configuration/security",
 						"/swagger-ui.html",
-						"/webjars/**").permitAll()
+						"/webjars/**","/organiser/chatwindow").permitAll()
 				.antMatchers("/organiser/**").authenticated()
 				.and()
 				.formLogin()

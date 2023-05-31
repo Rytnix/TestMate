@@ -271,6 +271,7 @@ public class UserController {
 
     @GetMapping(value = {"/{examCode}/exam", "/{examCode}/exam/{question_no}"})
     public String showUserDashboard(HttpSession session, @PathVariable(name = "examCode")String examCode, Model model,@PathVariable(name = "question_no",required = false)Integer question_no){
+        System.out.println("Hello form exam");
         String redirectUrl="redirect:/"+examCode+"/login";
         try{
             if(checkValidExamCode(examCode)){

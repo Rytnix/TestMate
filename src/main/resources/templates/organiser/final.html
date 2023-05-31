@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Render Chart</title>
+</head>
+<body>
+    <div class="chart"></div>
+    <button onclick="fetchChartData()">Fetch Chart Data</button>
+
+    <script>
+        function fetchChartData() {
+            // Get the reference to the div elements
+            const chartContainer = document.querySelector('.chart');
+            const button = document.querySelector('button');
+
+            // Disable the button while fetching data
+            button.disabled = true;
+
+            // Perform a GET request to fetch the HTML page
+            fetch('http://localhost:9000/organiser/a')
+                .then(response => response.text())
+                .then(html => {
+                    // Create a temporary div element
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = html;
+
+                    // Extract the content from the div with class "charta"
+                    const chartContent = tempDiv.querySelector('.charta').innerHTML;
+
+                    // Set the content to the chartContainer
+                    chartContainer.innerHTML = chartContent;
+
+                    // Enable the button after fetching data
+                    button.disabled = false;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Enable the button if an error occurs
+                    button.disabled = false;
+                });
+        }
+    </script>
+</body>
+</html>

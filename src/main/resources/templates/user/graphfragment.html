@@ -1,0 +1,58 @@
+<!-- fragment.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thymeleaf Fragment Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+
+<body>
+<th:block th:fragment="myGraph">
+    <div class="chart">
+        <canvas id="myChart"></canvas>
+        <script>
+            // Retrieve the data from your backend or define it manually
+            var totalQuestions = 3;
+            var attemptedQuestions = 3;
+            var correctAnswers = 1;
+            var incorrectAnswers = 2;
+
+            // Create the chart using Chart.js
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Total Questions', 'Attempted Questions', 'Correct Answers', 'Incorrect Answers'],
+                    datasets: [{
+                        label: 'Question Statistics',
+                        data: [totalQuestions, attemptedQuestions, correctAnswers, incorrectAnswers],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',  // Total Questions
+                            'rgba(54, 162, 235, 0.2)',  // Attempted Questions
+                            'rgba(75, 192, 192, 0.2)',  // Correct Answers
+                            'rgba(255, 206, 86, 0.2)'   // Incorrect Answers
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 206, 86, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
+    </div>
+
+</th:block>
+</body>
+</html>

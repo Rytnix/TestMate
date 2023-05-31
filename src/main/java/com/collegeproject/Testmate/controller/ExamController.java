@@ -32,12 +32,11 @@ import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 public class ExamController {
@@ -156,12 +155,22 @@ public class ExamController {
             incorrectAnswers.put(userExam.getId(),incorrect);
             score.put(userExam.getId(),exam.calculateScore(correct,incorrect));
         }
+
+        Object user= SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+       if(user instanceof OrganiserDetails){
+			Organiser org = ((OrganiserDetails) user).getOrg();
+			model.addAttribute("id",org.getId());
+			model.addAttribute("name",org.getName());
+			Optional<Organiser> orgI = organiserRepository.findById(org.getId());
+			model.addAttribute("O",orgI.get());
+		}
+
         model.addAttribute("examUsers",examUsers);
         model.addAttribute("correctAnswers",correctAnswers);
         model.addAttribute("incorrectAnswers",incorrectAnswers);
         model.addAttribute("score",score);
 
-        return "organiser/result/list";
+        return "organiser/result/list33";
     }
 
     @GetMapping("/organiser/exam/mail")

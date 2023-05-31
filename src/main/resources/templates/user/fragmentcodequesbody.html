@@ -1,0 +1,35 @@
+<!-- fragment.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thymeleaf Fragment Example</title>
+</head>
+<body>
+<th:block th:fragment="myFragment">
+    <form th:action="@{'/' + ${exam.getExamCode()} + '/submit'}" method="post">
+                                    <div>
+                                        <div th:text="'Question '+${question_no}" class="text-bold text-primary mb-2 mr-1"></div>
+                                        <div th:text="${question.getStatement()}" class="mb-2 text-bold"></div>
+                                    </div>
+                                    <input type="hidden" name="question_id" th:value="${question.getId()}">
+                                    <div class="form-group">
+                                        <div class="form-check" th:each="option : ${question.getOptions()}">
+                                            <input th:if="${answers[question.getId()]==option.getId()}" class="form-check-input" type="radio" th:name="answer_id" th:value="${option.getId()}" checked>
+                                            <input th:unless="${answers[question.getId()]==option.getId()}" class="form-check-input" type="radio" th:name="answer_id" th:value="${option.getId()}">
+                                            <span class="form-check-label" th:text="${option.getOption()}"></span>
+                                        </div>
+                                    </div>
+                                  <br>
+                                  <div class="d-inline" style="padding-right: 5px">
+                                    <input type="reset" value="Reset Answer" class="btn btn-danger" onclick="resetRadioButtons()" >
+                                  </div>
+                                    <div th:if="${exam.isLastQuestion(question.getId())}" class="d-inline">
+                                        <input type="submit" value="Save" class="btn btn-primary float-right">
+                                    </div>
+                                    <div th:unless="${exam.isLastQuestion(question.getId())}" class="d-inline">
+                                        <input type="submit" value="Save and Next" class="btn btn-primary float-right">
+                                    </div>
+                                </form>
+</th:block>
+</body>
+</html>

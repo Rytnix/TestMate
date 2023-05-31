@@ -68,6 +68,7 @@ public class OrganiserController {
 
 	@GetMapping("organiser/notifications")
 	public String notification(Model model) {
+
 		model.addAttribute("organiser",new Organiser());
 		Object user=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if(user instanceof OrganiserDetails){
@@ -76,7 +77,9 @@ public class OrganiserController {
 			model.addAttribute("name",org.getName());
 			Optional<Organiser> orgI = repo.findById(org.getId());
 			model.addAttribute("O",orgI.get());
+
 		}
+
 		return "organiser/notifications";
 	}
 	@PostMapping(value = "organiser/account-settings/updateDetails")

@@ -40,7 +40,12 @@
 
   <!-- Vendors CSS -->
   <link rel="stylesheet" th:href="@{/static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css}" />
-
+  <style>
+    #video-container {
+      width: 100%;
+      height: auto;
+    }
+  </style>
   <!-- Page CSS -->
 
   <!-- Helpers -->
@@ -83,22 +88,12 @@
 <!--          </a>-->
 <!--        </li>-->
         <br>
-
+           <div class="Hello"></div>
         <div class="col-12 text-center text-gray fw-bold " style="font-size: 20px" >
           Question palette
         </div>
         <br>
-     <div class="question" style="width:250px;display: flex; flex-wrap:wrap; gap: 10px; margin:0 auto"; >
-        <div class="col-2" th:each="i: ${#numbers.sequence(0,exam.getQuestions().size()-1)}">
-          <div th:if="${answers[exam.getQuestions().get(i).getId()]}" class="text-center text-bold bg-success p-2 mt-2"  style="border-radius: 7px; background: #9fd4ad ; border: 3px solid #71c251; ">
-            <a th:href="@{'/'+${exam.getExamCode()}+'/exam/'+${i+1}}" th:text="${i+1}" class="d-block" style="color:#44444f"></a>
-
-          </div>
-          <div th:unless="${answers[exam.getQuestions().get(i).getId()]}" class="text-center text-bold  p-2 mt-2" style="border-radius: 7px; background: #ffb3b3 ; border: 2px solid #ff0000; ">
-            <a th:href="@{'/'+${exam.getExamCode()}+'/exam/'+${i+1}}" th:text="${i+1}" class="d-block" style="color: #44444f"></a>
-          </div>
-        </div>
-     </div>
+        <div th:include="user/fragmentcodepallate.html :: myFragmentpallate"></div>
       </ul>
 
     </aside>
@@ -175,7 +170,7 @@
                 </li>
                   <div class="dropdown-divider"></div>
                 <li>
-                  <a class="dropdown-item" href="auth-login-basic.html">
+                  <a class="dropdown-item" th:href="@{|/${exam.getExamCode()}/final|}">
                     <i class="bx bx-power-off me-2"></i>
                     <span class="align-middle">Submit Exam</span>
                   </a>
@@ -197,34 +192,19 @@
          <div class="col-sm-9">
                         <div class="card mt-2">
                             <div class="card-body">
-                                <form th:action="@{'/' + ${exam.getExamCode()} + '/submit'}" method="post">
-                                    <div>
-                                        <div th:text="'Question '+${question_no}" class="text-bold text-primary mb-2 mr-1"></div>
-                                        <div th:text="${question.getStatement()}" class="mb-2 text-bold"></div>
-                                    </div>
-                                    <input type="hidden" name="question_id" th:value="${question.getId()}">
-                                    <div class="form-group">
-                                        <div class="form-check" th:each="option : ${question.getOptions()}">
-                                            <input th:if="${answers[question.getId()]==option.getId()}" class="form-check-input" type="radio" th:name="answer_id" th:value="${option.getId()}" checked>
-                                            <input th:unless="${answers[question.getId()]==option.getId()}" class="form-check-input" type="radio" th:name="answer_id" th:value="${option.getId()}">
-                                            <span class="form-check-label" th:text="${option.getOption()}"></span>
-                                        </div>
-                                    </div>
-                                  <br>
-                                  <div class="d-inline" style="padding-right: 5px">
-                                    <input type="reset" value="Reset Answer" class="btn btn-danger" onclick="resetRadioButtons()" >
-                                  </div>
-                                    <div th:if="${exam.isLastQuestion(question.getId())}" class="d-inline">
-                                        <input type="submit" value="Save" class="btn btn-primary float-right">
-                                    </div>
-                                    <div th:unless="${exam.isLastQuestion(question.getId())}" class="d-inline">
-                                        <input type="submit" value="Save and Next" class="btn btn-primary float-right">
-                                    </div>
-                                </form>
+<!--                              <div id="cardBodyContainer"></div>-->
+                              <div th:include="user/fragmentcodequesbody.html :: myFragment"></div>
                             </div>
                         </div>
+           <div class="card mt-2">
+             <div class="card-body">
+               <!--                              <div id="cardBodyContainer"></div>-->
+               <div id="video-container"></div>
+             </div>
+           </div>
                     </div>
                 </div>
+
           <!--/ Layout Demo -->
         </div>
         <!-- / Content -->
@@ -260,9 +240,9 @@
 
 <div class="buy-now">
   <a
-          href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/"
-          target="_blank"
+         th:href="@{|/${exam.getExamCode()}/final|}"
           class="btn btn-danger btn-buy-now"
+          id="submitbtnn"
   >Submit Exam</a
   >
 </div>
@@ -277,6 +257,32 @@
 <script src="/static/assets/vendor/js/menu.js"></script>
 <!-- endbuild -->
 <script>
+  // Access the camera stream and display it in the div element
+  function openCamera() {
+    navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function(stream) {
+              var videoElement = document.createElement('video');
+              videoElement.srcObject = stream;
+              videoElement.autoplay = true;
+              videoElement.style.width = '100%';
+              videoElement.style.height = 'auto';
+
+              var videoContainer = document.getElementById('video-container');
+              videoContainer.appendChild(videoElement);
+            })
+            .catch(function(error) {
+              console.log('Error accessing camera:', error);
+            });
+  }
+
+  // Call the openCamera function when the page finishes loading
+  window.onload = function() {
+    openCamera();
+  };
+</script>
+
+
+<script>
   function resetRadioButtons(){
     $("input:radio").attr("checked", false);
     console.log("reseting radio");
@@ -288,7 +294,23 @@
 <script src="/static/assets/js/main.js"></script>
 
 <!-- Page JS -->
+<script>
+  function loadCardBody() {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          document.getElementById("cardBodyContainer").innerHTML = xhr.responseText;
+        } else {
+          // Handle error if necessary
+        }
+      }
+    };
+    xhr.open("GET", "/load-card-body", true);
+    xhr.send();
+  }
 
+</script>
 <script>
   // Set the date we're counting down to
   var remainingExamTime=$('#remainingExamTime').val()/1000;
@@ -306,7 +328,7 @@
     $("#timer").html(text);
     if(Math.floor(time)<=0){
       console.log("hello clicked");
-      var href = $("#submitButton").attr('href');
+      var href = $("#submitbtnn").attr('href');
       window.location.href = href;
     }
   }

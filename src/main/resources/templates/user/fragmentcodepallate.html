@@ -1,0 +1,22 @@
+<!-- fragment.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thymeleaf Fragment Example</title>
+</head>
+<body>
+<th:block th:fragment="myFragmentpallate">
+    <div class="question" style="width:250px;display: flex; flex-wrap:wrap; gap: 10px; margin:0 auto"; >
+        <div class="col-2" th:each="i: ${#numbers.sequence(0,exam.getQuestions().size()-1)}">
+            <div th:if="${answers[exam.getQuestions().get(i).getId()]}" class="text-center text-bold bg-success p-2 mt-2"  style="border-radius: 7px; background: #9fd4ad ; border: 3px solid #71c251; ">
+                <a th:href="@{'/'+${exam.getExamCode()}+'/exam/'+${i+1}}" th:text="${i+1}" class="d-block" style="color:#44444f"></a>
+
+            </div>
+            <div th:unless="${answers[exam.getQuestions().get(i).getId()]}" class="text-center text-bold  p-2 mt-2" style="border-radius: 7px; background: #ffb3b3 ; border: 2px solid #ff0000; ">
+                <a th:href="@{'/'+${exam.getExamCode()}+'/exam/'+${i+1}}" th:text="${i+1}" class="d-block" style="color: #44444f"></a>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>
