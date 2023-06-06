@@ -39,7 +39,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Controller
-public class ExamController {
+public class    ExamController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExamController.class);
 

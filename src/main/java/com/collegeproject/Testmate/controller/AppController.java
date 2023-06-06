@@ -72,7 +72,7 @@ public class AppController {
 	@GetMapping("/student/gotoexam")
 	public String loadExamPage(Model model) {
 		// Populate the necessary data for the card body (question_no, question, answers, etc.) in the model
-		return "/user/gotoExam"; // Return the Thymeleaf fragment name
+		return "user/gotoExam"; // Return the Thymeleaf fragment name
 
 
 	}

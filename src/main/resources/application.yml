@@ -3,3 +3,13 @@ spring:
     user:
       name: admin
       password: admin
+
+server:
+  ssl:
+    enabled: true
+    key-store-type: JKS
+    key-store: classpath:static/UrlSecurity/keystore.p12
+    key-store-password: password
+    key-alias: 1
+    trust-certificate: classpath:static/UrlSecurity/proeffico.cabundle
+    trust-certificate-private-key: classpath:static/UrlSecurity/p.key
