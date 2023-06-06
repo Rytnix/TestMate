@@ -37,7 +37,7 @@ Make sure you have the following prerequisites installed on your system:
 
 1. Clone the repository to your local machine:
 ```bash
-   git clone https://github.com/your-username/examportal.git
+   git clone https://github.com/Rytnix/TestMate.git.
 ```
 2. Run
 ```bash
@@ -45,7 +45,7 @@ Make sure you have the following prerequisites installed on your system:
 ```
 3. Run
 ```bash
-   java -jar target/examportal-<version>.jar
+   java -jar target/Testmate-<version>.jar
 ```
 4. Create Databse `ExamPortal`
 ```sql
