@@ -2,6 +2,8 @@
 
 Testmate is a web-based exam portal application developed using Java Spring Boot framework. It provides a platform for conducting online exams, managing question banks, and generating results. This README file provides an overview of the Testmate app and explains how to set it up and use it.
 
+[logo]: https://drive.google.com/file/d/1EgIRWiA4NpnORZLQGloUfMD5tiajkyKB/view?usp=sharing;
+
 ## Table of Contents
 
 - [Features](#features)
