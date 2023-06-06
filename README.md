@@ -37,7 +37,7 @@ Make sure you have the following prerequisites installed on your system:
 
 1. Clone the repository to your local machine:
 ```bash
-   git clone https://github.com/Rytnix/TestMate.git.
+   [git clone https://github.com/Rytnix/TestMate.git.](https://github.com/Rytnix/TestMate.git)
 ```
 2. Run
 ```bash
